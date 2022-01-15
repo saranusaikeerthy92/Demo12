@@ -9,7 +9,7 @@ pipeline {
             agent any
             steps {
                 script{
-                    echo "Compiling the code"
+                    echo "Compiling the code "
                     git 'https://github.com/preethid/addressbook-1.git'
                     sh 'mvn compile'
                   }
