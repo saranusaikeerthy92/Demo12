@@ -5,7 +5,7 @@ pipeline {
         stage("Compile"){
             steps{
                 script{
-                    echo "Compiling the code"
+                    echo "Compiling the code with masteringgit status"
                 }
                 
             }
