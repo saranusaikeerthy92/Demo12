@@ -5,7 +5,7 @@ pipeline {
         stage("Compile"){
             steps{
                 script{
-                    echo "Compiling the code with masteringgit status"
+                    echo "Compiling the code"
                 }
                 
             }
@@ -15,7 +15,7 @@ pipeline {
           stage("UnitTest"){
             steps{
                 script{
-                    echo "Testing the unit test cases,"
+                    echo "Testing the unit test cases"
                 }
                 
             }
