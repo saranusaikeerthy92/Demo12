@@ -41,6 +41,11 @@ parameters{
             
         }
 stage("Deploy"){
+    when {
+      expressin {
+          BRANCH_NAME == 'master'
+      }  
+    }
             steps{
                 script{
                     echo "Deploying the app"
