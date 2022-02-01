@@ -45,7 +45,7 @@ environment{
             steps{
                 script{
                     echo "Packaging the code"
-                    echo "Packaging version ${params.NEW_VERSION}"
+                    echo "Packaging version ${NEW_VERSION}"
                 }
                 
             }
