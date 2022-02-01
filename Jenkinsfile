@@ -57,7 +57,7 @@ stage("Deploy"){
                 script{
                     echo "Deploying the app"
                     echo "Deploying version ${params.Env}"
-                    echo "Deploying the app version ${params.APPVERSION}"
+                    echo "Deploying the app version ${params.BRANCH}"
                 }
                 
             }
