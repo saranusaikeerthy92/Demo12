@@ -1,9 +1,9 @@
 pipeline {
     agent any 
 parameters{
-    string(name: 'Env',defaultValue:'1:1',description:'version to deploy')
+    string(name: 'Env',defaultValue:'Test',description:'version to deploy')
     booleanParam(name:'executeTests',defaultValue: true, description: 'decide to run tc')
-    choice(name:'APPVERSION',choices:['1:1','1:2','1:3'])
+    choice(name:'BRANCH',choices:['1:1','1:2','1:3'])
 }   
 environment{
     NEW_VERSION ='2.1'
@@ -34,7 +34,7 @@ environment{
             
         }
         
-          stage("Packing "){
+          stage("Packing"){
               input {
                   message "Select the version to package"
                   ok "Package version is selected"
@@ -60,8 +60,8 @@ stage("Deploy"){
             steps{
                 script{
                     echo "Deploying the app"
-                    echo "deploying version ${params.Env}"
-                    echo "deploying the app version ${params.APPVERSION}"
+                    echo "Deploying version ${params.Env}"
+                    echo "Deploying the app version ${params.APPVERSION}"
                 }
                 
             }
