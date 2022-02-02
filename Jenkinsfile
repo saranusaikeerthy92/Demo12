@@ -24,9 +24,10 @@ pipeline {
             steps{
                 script{
                     echo "Testing the unit test cases"
+                    git 'https://github.com/saranusaikeerthy92/addressbook-1.git'
                     sh 'mvn test'
                 }
-                
+                 
             }
             
         }
