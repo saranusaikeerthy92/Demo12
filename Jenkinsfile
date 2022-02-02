@@ -36,13 +36,13 @@ pipeline {
               agent any
                          steps{
                 script{
-                    echo "Packaging the code"
-                    sshagent(['test-server-key']) {
+                    
+                    sshagent(['test-server-key']){
+                         echo "Packaging the code"
 
-    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 'sudo yum install java-1.8.0-openjdk-devel -y'"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 'sudo yum install git -y'"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 'sudo yum install maven -y'"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 '/home/ec2-user/addressbook-1/'"
+    sh "SCP -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.12.151:/home/ec2-user"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 'bash ~/server-script.sh'"
+
 }                    
                 }
                 
