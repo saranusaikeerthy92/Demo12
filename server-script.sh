@@ -11,7 +11,7 @@ then
   cd /home/ec2-user/addressbook-1
   git pull origin master
 else
-  git clone https://github.com/preethid/addressbook-1.git
+  git clone https://github.com/saranusaikeerthy92/addressbook-1
 fi
 cd /home/ec2-user/addressbook-1
 mvn package
