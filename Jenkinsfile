@@ -34,10 +34,10 @@
         
           stage("Packaging"){
               agent any
-                         steps{
+                steps{
                 script{
                     
-                    sshagent(['test-server-key']){
+                sshagent(['test-server-key']){
 withCredentials([usernamePassword(credentialsId: 'dockhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 echo "Packaging the code"
 sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.24.126:/home/ec2-user"
