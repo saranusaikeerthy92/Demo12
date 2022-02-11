@@ -40,9 +40,13 @@ pipeline {
                     sshagent(['test-server-key']){
 withCredentials([usernamePassword(credentialsId: 'dockhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 
+<<<<<<< HEAD
 echo "Packaging the code"
 
 sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.12.151:/home/ec2-user"
+=======
+    sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.12.151:/home/ec2-user"
+>>>>>>> f364db20562cf62cad4a105ce0e5962a90fd9bae
 sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 'bash ~/server-script.sh'"
 sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 sudo docker build -t 28141108/java-mvn-privaterepos:$BUILD_NUMBER ."
 sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.12.151 sudo docker login -u $USERNAME -p $PASSWORD"
