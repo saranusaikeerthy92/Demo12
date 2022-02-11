@@ -58,6 +58,7 @@ stage("Deploy"){
             steps{
                 script{
                     echo "Deploying the app"
+                    sh "sudo docker run -P 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
                 }
                 
             }
