@@ -75,3 +75,5 @@ sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo docker run -itd -P
     
 }
     
+}
+    }
