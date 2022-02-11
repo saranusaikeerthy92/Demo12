@@ -57,8 +57,13 @@ stage("Deploy"){
     agent any
             steps{
                 script{
-                    echo "Deploying the app"
-                    sh "sudo docker run -itd -P 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
+sshagent(['test-server-key']){
+withCredentials([usernamePassword(credentialsId: 'dockhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+echo "running the docker container"
+sh "scp -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo yum install docker -y"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo systemctl start docker"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo docker login -u $USERNAME -p $PASSWORD"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo docker run -itd -P 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
                 }
                 
             }
