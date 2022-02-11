@@ -40,11 +40,11 @@
                     sshagent(['test-server-key']){
 withCredentials([usernamePassword(credentialsId: 'dockhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 echo "Packaging the code"
-sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.30.143:/home/ec2-user"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.30.143 'bash ~/server-script.sh'"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.30.143 sudo docker build -t 28141108/java-mvn-privaterepos:$BUILD_NUMBER /home/ec2-user/address-book1"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.30.143 sudo docker login -u $USERNAME -p $PASSWORD"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.30.143 sudo docker push 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
+sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.24.126:/home/ec2-user"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 'bash ~/server-script.sh'"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 sudo docker build -t 28141108/java-mvn-privaterepos:$BUILD_NUMBER /home/ec2-user/addressbook-1"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 sudo docker login -u $USERNAME -p $PASSWORD"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 sudo docker push 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
     
 }
     }                    
