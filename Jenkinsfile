@@ -9,7 +9,7 @@
             agent any
             steps{
                 script{
-                    echo "Compiling the code"
+                    echo "Compile the code"
                     git 'https://github.com/saranusaikeerthy92/addressbook-1.git'
                     sh 'mvn compile'
                 }
