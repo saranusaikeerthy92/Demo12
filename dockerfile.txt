@@ -1,0 +1,5 @@
+From ubuntu
+Maintainer "Keerthy"
+run apt-get update
+run apt-get install vim -y
+cmd /bin/echo "hello from container"

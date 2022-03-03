@@ -4,13 +4,14 @@ sudo yum install git -y
 sudo yum install maven -y
 sudo yum install docker -y
 sudo systemctl start docker
+
 if [ -d "addressbook-1" ]
 then 
   echo "repo is cloned and exists"
   cd /home/ec2-user/addressbook-1
   git pull origin master
 else
-  git clone https://github.com/preethid/addressbook-1.git
+  git clone https://github.com/saranusaikeerthy92/addressbook-1
 fi
 cd /home/ec2-user/addressbook-1
 mvn package

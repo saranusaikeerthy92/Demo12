@@ -1,68 +1,79 @@
-pipeline {
+    pipeline {
     agent none
-    tools{
+    tools {
         jdk 'myjava'
         maven 'mymaven'
     }
-    stages {
-        stage('Compile') {
+    stages{
+        stage("Compile"){
             agent any
-            steps {
+            steps{
                 script{
-                    echo "Compiling the coding"
-                    git 'https://github.com/preethid/addressbook-1.git'
+                    echo "Compile the code"
+                    git 'https://github.com/saranusaikeerthy92/addressbook-1.git'
                     sh 'mvn compile'
-                  }
+                }
+                
             }
+            
         }
-        stage('UnitTest') {
-            agent any
-            steps {
+        
+          stage("UnitTest"){
+              agent any
+              
+            steps{
                 script{
-                    echo "Running the test cases"
-                    git 'https://github.com/preethid/addressbook-1.git'
+                    echo "Testing the unit test cases"
+                    git 'https://github.com/saranusaikeerthy92/addressbook-1.git'
                     sh 'mvn test'
                 }
+                 
             }
-            post{
-                always{
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+            
         }
-        stage('PACKAGE N BUild DOCKER IMAGE') {
-        agent any
-           steps {
-                script{                   
-                    sshagent(['build-server-key']) {
-withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-    
+        
+          stage("Packaging"){
+              agent any
+                steps{
+                script{
+                    
+                sshagent(['test-server-key']){
+withCredentials([usernamePassword(credentialsId: 'dockhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
 echo "Packaging the code"
-sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.47.225:/home/ec2-user"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.225 'bash ~/server-script.sh'"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.225 sudo docker build -t devopstrainer/java-mvn-privaterepos:$BUILD_NUMBER /home/ec2-user/addressbook-1"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.225 sudo docker login -u $USERNAME -p $PASSWORD"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.47.225 sudo docker push devopstrainer/java-mvn-privaterepos:$BUILD_NUMBER"
-  }
-                  }
+sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.24.126:/home/ec2-user"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 'bash ~/server-script.sh'"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 sudo docker build -t 28141108/java-mvn-privaterepos:$BUILD_NUMBER /home/ec2-user/addressbook-1"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 sudo docker login -u $USERNAME -p $PASSWORD"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.24.126 sudo docker push 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
+    
+}
+    }                    
+                }
+                
             }
+            
         }
-        }
-        stage('Deploy to TEST SERVER') {
-          agent any
-           steps {
-                script{                   
-sshagent(['build-server-key']) {
-withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-echo "Running the docker container"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.42.6 sudo yum install docker -y"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.42.6 sudo systemctl start docker"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.42.6 sudo docker login -u $USERNAME -p $PASSWORD"
-sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.42.6 sudo docker run -itd -P devopstrainer/java-mvn-privaterepos:$BUILD_NUMBER"
+stage("Deploy"){
+    agent any
+            steps{
+                script{
+sshagent(['test-server-key']){
+withCredentials([usernamePassword(credentialsId: 'dockhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+echo "running the docker container"
+sh "scp -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo yum install docker -y"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo systemctl start docker"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo docker login -u $USERNAME -p $PASSWORD"
+sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.0.51 sudo docker run -itd -P 28141108/java-mvn-privaterepos:$BUILD_NUMBER"
+                }
+                
+            }
+            
+        }      
+      
+        
+    }
+    
+}
+    
 }
     }
-}
-           }
-        }
-    }
-}
